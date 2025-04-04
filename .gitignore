@@ -1,1 +1,15 @@
+
 .env
+venv
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+/venv
+data
+logs
+node_modules
+./node_modules
+/chatbot-dev/node_modules
+package-lock.json
+/chatbot-dev/package-lock.json
