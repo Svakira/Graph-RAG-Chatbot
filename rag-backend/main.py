@@ -6,6 +6,7 @@ import shutil
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain.schema.runnable import RunnableLambda, RunnablePassthrough
+from embedder import InfermaticEmbeddings 
 
 from config import (
     get_logger, 
@@ -17,7 +18,7 @@ from config import (
     INGEST_SIMILAR_NEIGHBORS_TO_LINK,
     ENTITY_LABELS_TO_EXTRACT
     )
-from embedder import AzureEmbeddings
+
 from model_client import CustomChatQwen
 from graph_db import get_neo4j_graph_instance, get_neo4j_vector_store
 from document_processing import load_and_split_document
@@ -36,15 +37,15 @@ try:
         tokenizer=tokenizer,
         aggregation_strategy="simple" 
     )
-    embedding_model = AzureEmbeddings()
+    embedding_model = InfermaticEmbeddings() 
     chat_model = CustomChatQwen()
     neo4j_graph = get_neo4j_graph_instance() 
     neo4j_vector_store = get_neo4j_vector_store(embedding_model)
     logger.info("Initialized LangChain components (Embeddings, ChatModel, Neo4jGraph, Neo4jVector)")
 except Exception as e:
     logger.exception(f"Fatal error during initialization: {e}")
-    
     raise RuntimeError(f"Failed to initialize core components: {e}")
+
 
 
 app = FastAPI(title="LangChain GraphRAG Agent", version="1.1.0")
